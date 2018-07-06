@@ -1,27 +1,27 @@
 import React from 'react';
-import { Admin, Resource } from 'admin-on-rest';
+import { Admin, Resource } from 'react-admin';
 // import jsonServerProvider from 'ra-data-json-server';
 // import dataProvider from './dataProvider';
 // import { PostList, PostEdit, PostCreate } from './posts';
 import { UserList } from './users';
-import { RestClient } from 'aor-firebase-client';
+import { RestClient } from './dataProvider';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB-E97IWtwbjToqVm8aCXink8ZOQYhEz4A",
-    authDomain: "imarket-dev-de6d9.firebaseapp.com",
-    databaseURL: "https://imarket-dev-de6d9.firebaseio.com",
-    projectId: "imarket-dev-de6d9",
-    storageBucket: "imarket-dev-de6d9.appspot.com",
-    messagingSenderId: "90262004030"
+    apiKey: "AIzaSyA_zLJNeHik17VpCEQZcJ7MOSG0xKST-zQ",
+    authDomain: "cmc-api.firebaseapp.com",
+    databaseURL: "https://cmc-api.firebaseio.com",
+    projectId: "cmc-api",
+    storageBucket: "cmc-api.appspot.com",
+    messagingSenderId: "849334807828"
 };
 
 const clientOptions = {
-    trackedResources: ['users']
+    trackedResources: ['tokens']
 }
 
 const App = () => (
-    <Admin restClient={RestClient(firebaseConfig, clientOptions)}>
-        <Resource name="users" list={UserList} />
+    <Admin dataProvider={RestClient(firebaseConfig, clientOptions)}>
+        <Resource name="tokens" list={UserList} />
     </Admin>
 );
 
