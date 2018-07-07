@@ -100,6 +100,7 @@ export const RestClient = (firebaseConfig = {}, options = {}) => {
         querySnapshot.forEach(function(doc) {
             entries[doc.id] = doc.data();
         });
+        console.log(entries)
         Object.keys(entries).map(key => {
           resourcesData[name][key] = firebaseGetFilter(entries[key], name)
         })
@@ -132,16 +133,37 @@ export const RestClient = (firebaseConfig = {}, options = {}) => {
     })
   })
 
-  const getList = () => {
+  const resource = (resolve) => {
+    const name = 'tokens'
+    firebase.firestore().collection('tokens').get().then(function (querySnapshot) {
+      let entries = {};
+      querySnapshot.forEach(function(doc) {
+          entries[doc.id] = doc.data();
+      });
+      console.log(entries)
+      Object.keys(entries).map(key => {
+        resourcesData[name][key] = firebaseGetFilter(entries[key], name)
+      })
+      Object.keys(resourcesData[name]).forEach(itemKey => {
+        resourcesData[name][itemKey].id = itemKey
+        resourcesData[name][itemKey].key = itemKey
+      })
+      resolve()
+    })
+  }
+
+  const getList = (resolve) => {
     firebase.firestore().collection('tokens').get().then(function (querySnapshot) {
       const data = querySnapshot.docs.map(function (documentSnapshot) {
         return documentSnapshot.data();
       });
+
       const entries = {
         data: data,
-        total: 200
-      };
-      return entries
+        total: 100
+      }
+      console.log(entries)
+      resolve(entries)
     })
   }
 
@@ -159,9 +181,24 @@ export const RestClient = (firebaseConfig = {}, options = {}) => {
       case GET_LIST:
       case GET_MANY:
       case GET_MANY_REFERENCE:
-        result = await getList()
         // result = await getMany(params, resourceName, resourcesData[resourceName])
-        return result
+        // const getresult = new Promise(function(resolve, reject) {
+        //   resource(resolve)
+        // })
+        // getresult.then(function(){
+        //   console.log(resourcesData[resourceName])
+        //   result = getMany(params, resourceName, resourcesData[resourceName])
+        //   console.log(result)
+        //   return result
+        // })
+        const getresult = new Promise(function(resolve, reject) {
+          const entries = getList(resolve)
+        })
+        getresult.then(function(entries){
+          result = entries
+          console.log(result)
+          return result
+        })
 
       case GET_ONE:
         result = await getOne(params, resourceName, resourcesData[resourceName])
