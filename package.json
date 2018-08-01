@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "admin-on-rest": "^1.4.1",
+    "react-admin": "^2.1.4.",
     "aor-firebase-client": "^0.3.1",
     "firebase": "^5.2.0",
     "ra-data-json-server": "^2.1.1",
