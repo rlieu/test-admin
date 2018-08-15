@@ -134,8 +134,8 @@ export const RestClient = (firebaseConfig = {}, options = {}) => {
   })
 
   const resource = (resolve) => {
-    const name = 'tokens'
-    firebase.firestore().collection('tokens').get().then(function (querySnapshot) {
+    const name = 'offers'
+    firebase.firestore().collection(name).get().then(function (querySnapshot) {
       let entries = {};
       querySnapshot.forEach(function(doc) {
           entries[doc.id] = doc.data();
@@ -182,23 +182,23 @@ export const RestClient = (firebaseConfig = {}, options = {}) => {
       case GET_MANY:
       case GET_MANY_REFERENCE:
         // result = await getMany(params, resourceName, resourcesData[resourceName])
-        // const getresult = new Promise(function(resolve, reject) {
-        //   resource(resolve)
-        // })
-        // getresult.then(function(){
-        //   console.log(resourcesData[resourceName])
-        //   result = getMany(params, resourceName, resourcesData[resourceName])
-        //   console.log(result)
-        //   return result
-        // })
         const getresult = new Promise(function(resolve, reject) {
-          const entries = getList(resolve)
+          resource(resolve)
         })
-        getresult.then(function(entries){
-          result = entries
+        getresult.then(function(){
+          console.log(resourcesData[resourceName])
+          result = getMany(params, resourceName, resourcesData[resourceName])
           console.log(result)
           return result
         })
+        // const getresult = new Promise(function(resolve, reject) {
+        //   const entries = getList(resolve)
+        // })
+        // getresult.then(function(entries){
+        //   result = entries
+        //   console.log(result)
+        //   return result
+        // })
 
       case GET_ONE:
         result = await getOne(params, resourceName, resourcesData[resourceName])

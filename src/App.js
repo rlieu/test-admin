@@ -16,12 +16,12 @@ const firebaseConfig = {
 };
 
 const clientOptions = {
-    trackedResources: ['tokens']
+    trackedResources: ['offers']
 }
 
 const App = () => (
     <Admin dataProvider={RestClient(firebaseConfig, clientOptions)}>
-        <Resource name="tokens" list={UserList} />
+        <Resource name="offers" list={UserList} />
     </Admin>
 );
 

@@ -11,18 +11,11 @@ const config = {
 
 firebase.initializeApp(config);
 
-firebase.firestore().collection('tokens').get().then(function(querySnapshot){
-    const data = querySnapshot.docs.map(function (documentSnapshot) {
-        return documentSnapshot.data();
-    });
-    const entries = {
-        data: data,
-        total: 200
-    };
-    console.log(entries);
-    // let data = {};
-    // querySnapshot.forEach(function(doc) {
-    //     data[doc.id] = doc.data();
-    // });
-    // console.log(data);
-});
+firebase.firestore().collection('tokens').get().then((data) => {
+
+    const coinList = data.docs.map((doc) => {
+      return doc.data()
+    })
+    
+    console.log(coinList)
+})
